@@ -9,9 +9,20 @@ export class CreateUserController implements Controller {
   async handle(req: Request): Promise<Response> {
     const result = await this.createUserUseCase.execute(req.body as any);
 
+    if (result.isSuccess) {
+      const user = result.getValue();
+
+      return {
+        statusCode: 200,
+        body: user,
+      };
+    }
+
     return {
-      statusCode: 200,
-      body: result,
+      statusCode: 404,
+      body: {
+        error: 'Error on create user!',
+      },
     };
   }
 }

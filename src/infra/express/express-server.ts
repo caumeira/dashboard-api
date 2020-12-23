@@ -1,6 +1,9 @@
 import express, { Express, Router } from 'express';
 
-import { WebServer } from '@/presentation/protocols/web-server';
+import {
+  WebServer,
+  WebServerConfig,
+} from '@/presentation/protocols/web-server';
 import { Route, RouteGroup } from '@/presentation/protocols/route';
 
 export class ExpressServer implements WebServer {
@@ -9,7 +12,7 @@ export class ExpressServer implements WebServer {
   }
 
   setupRoute(route: Route | RouteGroup): void {
-    const routesPrefix = 'path' in route ? route.path : route.basePath;
+    const routesPrefix = 'basePath' in route ? route.basePath : '';
     const routes = 'path' in route ? [route] : route.routes;
 
     const router = Router();
@@ -25,7 +28,7 @@ export class ExpressServer implements WebServer {
     this.expressApp.use(routesPrefix, router);
   }
 
-  start(_: string): void {
-    this.expressApp.listen(3000);
+  start(config: WebServerConfig): void {
+    this.expressApp.listen(config.port, config.hostname);
   }
 }

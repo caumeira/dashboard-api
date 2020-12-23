@@ -7,11 +7,22 @@ export class ListUserController implements Controller {
   constructor(public listUserUseCase: ListUserUseCase) {}
 
   async handle(_: Request): Promise<Response> {
-    const users = await this.listUserUseCase.execute();
+    const result = await this.listUserUseCase.execute();
+
+    if (result.isSuccess) {
+      const users = result.getValue();
+
+      return {
+        statusCode: 200,
+        body: users,
+      };
+    }
 
     return {
-      statusCode: 200,
-      body: users,
+      statusCode: 400,
+      body: {
+        error: 'Error',
+      },
     };
   }
 }
