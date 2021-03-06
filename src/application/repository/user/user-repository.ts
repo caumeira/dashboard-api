@@ -1,8 +1,7 @@
-import User from '../../../domain/entity/user';
-import { Repository } from '../repository';
+import { Repository } from '@/application/repository/repository';
+import { UserDTO } from '@/application/dtos/user-dto';
 
 export interface UserRepository extends Repository {
-  save: (user: User) => Promise<User>;
-  list: () => Promise<User[]>;
-  findByEmail: (email: string) => Promise<User | undefined>;
+  save: (user: UserDTO) => Promise<UserDTO>;
+  findByEmail: (email: string) => Promise<UserDTO | undefined>;
 }

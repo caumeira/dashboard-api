@@ -1,4 +1,4 @@
-import { ListUserUseCase } from '@/domain/usecases/user/list-user';
+import { ListUserUseCase } from '@/application/usecases/user/list-user';
 import { Controller } from '@/presentation/protocols/controller';
 import { Request } from '@/presentation/protocols/request';
 import { Response } from '@/presentation/protocols/response';

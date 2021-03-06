@@ -1,7 +1,8 @@
+import { Result } from '@/application/logic/Result';
+import { UserRepository } from '@/application/repository/user/user-repository';
+
 import { UseCase } from '@/domain/usecases/use-case';
-import { UserRepository } from '@/data/repository/user/user-repository';
 import User from '@/domain/entity/user';
-import { Result } from '@/data/logic/Result';
 
 export class ListUserUseCase implements UseCase<never, User[]> {
   constructor(public userRepository: UserRepository) {}

@@ -1,7 +1,7 @@
-import { UserRepository } from '@/data/repository/user/user-repository';
+import { UserRepository } from '@/application/repository/user/user-repository';
+import { Result } from '@/application/logic/Result';
 import { UseCase } from '@/domain/usecases/use-case';
 import User from '@/domain/entity/user';
-import { Result } from '@/data/logic/Result';
 
 export type CreateUserParam = Omit<User, 'id'>;
 
