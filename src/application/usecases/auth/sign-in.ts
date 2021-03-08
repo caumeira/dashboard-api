@@ -9,7 +9,7 @@ import { Hasher } from '@/application/criptography/hasher';
 import { Encrypter } from '@/application/criptography/encrypter';
 import { Decrypter } from '@/application/criptography/decrypter';
 
-type SignInParams = {
+export type SignInParams = {
   email: string;
   password: string;
 };

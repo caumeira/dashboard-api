@@ -1,3 +1,5 @@
+import { Middleware } from './middleware';
+
 import { Controller } from '@/presentation/protocols/controller';
 
 export type Method = 'get' | 'post' | 'put' | 'delete';
@@ -5,7 +7,8 @@ export type Method = 'get' | 'post' | 'put' | 'delete';
 export type Route = {
   path: string;
   method: Method;
-  controller: Controller;
+  middleware?: Middleware[];
+  controller: Controller<any, any>;
 };
 
 export type RouteGroup = {

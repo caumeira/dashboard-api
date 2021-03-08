@@ -1,7 +1,9 @@
 export class Result<T> {
   public isSuccess: boolean;
 
-  private value: T | undefined;
+  public isFailure: boolean;
+
+  private value: T;
 
   public error: T | string | undefined;
 
@@ -19,14 +21,15 @@ export class Result<T> {
     }
 
     this.isSuccess = isSuccess;
+    this.isFailure = !isSuccess;
 
-    this.error = error;
-    this.value = value;
+    this.error = error as T;
+    this.value = value as T;
 
     Object.freeze(this);
   }
 
-  public getValue(): T | undefined {
+  public getValue(): T {
     if (!this.isSuccess) {
       console.log(this.error);
 

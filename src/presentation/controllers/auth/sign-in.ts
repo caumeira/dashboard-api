@@ -6,52 +6,35 @@ import { Controller } from '@/presentation/protocols/controller';
 import { Request } from '@/presentation/protocols/request';
 import { Response } from '@/presentation/protocols/response';
 
-const signInSchema = yup.object().shape({
+type SignInParams = {
+  email: string;
+  password: string;
+};
+
+const signInParamScheme = yup.object().shape({
   email: yup.string().required(),
   password: yup.string().required(),
 });
 
-export class SignInController implements Controller {
+export class SignInController implements Controller<SignInParams> {
   constructor(public signInUseCase: SignInUseCase) {}
 
-  async handle(req: Request): Promise<Response> {
-    try {
-      const { email, password } = signInSchema.validateSync(req.body, {
-        abortEarly: false,
-      });
+  paramSchema(): yup.SchemaOf<SignInParams> {
+    return signInParamScheme;
+  }
 
-      const result = await this.signInUseCase.execute({
-        email,
-        password,
-      });
+  async handle(req: Request<SignInParams>): Promise<Response> {
+    const { email, password } = req.body;
 
-      if (!result.isSuccess) {
-        return badRequest(result.error);
-      }
+    const result = await this.signInUseCase.execute({
+      email,
+      password,
+    });
 
-      return created(result.getValue());
-    } catch (error) {
-      if (error instanceof yup.ValidationError) {
-        const fields = error.inner.map((item) => ({
-          field: item.path,
-          error: item.errors,
-        }));
-
-        return {
-          statusCode: 400,
-          body: {
-            error: {
-              name: error.name,
-              description: error.message,
-              fields,
-            },
-          },
-        };
-      }
-
-      console.log(error);
-
-      return badRequest();
+    if (!result.isSuccess) {
+      return badRequest(result.error);
     }
+
+    return created(result.getValue());
   }
 }

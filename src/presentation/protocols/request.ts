@@ -1,7 +1,10 @@
 type UnknownObject = Record<symbol, unknown>;
 
-export interface Request {
+export type Request<
+  Params = Record<string, never>,
+  T = Record<string, unknown>
+> = {
   params?: UnknownObject;
   headers?: UnknownObject;
-  body?: UnknownObject;
-}
+  body: Params & UnknownObject;
+} & T;
